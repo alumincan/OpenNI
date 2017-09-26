@@ -5,7 +5,7 @@ BIN_DIR = ../../Bin
 INC_DIRS = \
 	../../../../Include \
 	../../../../Source \
-	../../../../Externals/TinyXml
+	../../../../Externals/TinyXml \
 
 SRC_FILES = \
 	../../../../Source/OpenNI/*.cpp \

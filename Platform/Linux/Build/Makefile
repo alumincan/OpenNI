@@ -93,7 +93,7 @@ ALL_PROJS = \
 	$(ALL_BUILD_PROJS)
 
 # decide if CLR projects should be build
-ifneq "$(realpath /usr/bin/gmcs)" ""
+ifneq "$(realpath /usr/local/bin/gmcs)" ""
 	MONO_INSTALLED = 1
 	
 	ifneq "$(shell gacutil -l | grep System.Windows.Forms)" ""
