@@ -1,0 +1,51 @@
+***************
+*** 1137,1142 ****
+        ret = (*(cInterface->interface))->WritePipeAsync(cInterface->interface, pipeRef, transfer->buffer,
+  						       transfer->length, darwin_async_io_callback, itransfer);
+    } else {
+      if (is_read)
+        ret = (*(cInterface->interface))->ReadPipeAsyncTO(cInterface->interface, pipeRef, transfer->buffer,
+  							transfer->length, transfer->timeout, transfer->timeout,
+--- 1137,1144 ----
+        ret = (*(cInterface->interface))->WritePipeAsync(cInterface->interface, pipeRef, transfer->buffer,
+  						       transfer->length, darwin_async_io_callback, itransfer);
+    } else {
++     itransfer->flags |= USBI_TRANSFER_OS_HANDLES_TIMEOUT;
++   
+      if (is_read)
+        ret = (*(cInterface->interface))->ReadPipeAsyncTO(cInterface->interface, pipeRef, transfer->buffer,
+  							transfer->length, transfer->timeout, transfer->timeout,
+***************
+*** 1360,1365 ****
+  }
+  
+  static int darwin_transfer_status (struct usbi_transfer *itransfer, kern_return_t result) {
+    switch (result) {
+    case kIOReturnUnderrun:
+    case kIOReturnSuccess:
+--- 1376,1384 ----
+  }
+  
+  static int darwin_transfer_status (struct usbi_transfer *itransfer, kern_return_t result) {
++ 	if (itransfer->flags & USBI_TRANSFER_TIMED_OUT)
++ 		result = kIOUSBTransactionTimeout;
++ 		
+    switch (result) {
+    case kIOReturnUnderrun:
+    case kIOReturnSuccess:
+***************
+*** 1374,1379 ****
+      return LIBUSB_TRANSFER_OVERFLOW;
+    case kIOUSBTransactionTimeout:
+      usbi_err (ITRANSFER_CTX (itransfer), "transfer error: timed out");
+      return LIBUSB_TRANSFER_TIMED_OUT;
+    default:
+      usbi_err (ITRANSFER_CTX (itransfer), "transfer error: %s (value = 0x%08x)", darwin_error_str (result), result);
+--- 1393,1399 ----
+      return LIBUSB_TRANSFER_OVERFLOW;
+    case kIOUSBTransactionTimeout:
+      usbi_err (ITRANSFER_CTX (itransfer), "transfer error: timed out");
++ 	itransfer->flags |= USBI_TRANSFER_TIMED_OUT;
+      return LIBUSB_TRANSFER_TIMED_OUT;
+    default:
+      usbi_err (ITRANSFER_CTX (itransfer), "transfer error: %s (value = 0x%08x)", darwin_error_str (result), result);
