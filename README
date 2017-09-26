@@ -162,39 +162,15 @@ Linux:
 	
 MacOSX:
 	Requirements:
-		1) For Mac OSX 10.7, Xcode 4.3.2
-		      From: http://developer.apple.com/devcenter/mac/index.action
-		      http://adcdownload.apple.com/Developer_Tools/xcode_4.3.2/xcode_432_lion.dmg    
-   
-		      You will also need to download and install the "Commandline Tools for XCode - Late March 2012" package:
-		      http://adcdownload.apple.com/Developer_Tools/command_line_tools_for_xcode_4.4__late_march_2012/cltools_lion_latemarch12.dmg
-		   
-		      Note: Since Xcode is now a normal application, it no longer automatically install itself. You have to copy&paste Xcode yourself into your Applications folder. 
-			        (or run the application "Install Xcode" from your Applications folder / LaunchPad). 		   
-			        It's also recommended to run the following command after you do the above:
-				      sudo xcode-select -switch /Applications/Xcode.app/
-		   
-		   For Mac OSX 10.6, Xcode 3.2.6:
-		      From: http://developer.apple.com/devcenter/mac/index.action
-		      http://developer.apple.com/devcenter/download.action?path=/Developer_Tools/xcode_3.2.6_and_ios_sdk_4.3__final/xcode_3.2.6_and_ios_sdk_4.3.dmg
+		1) Please install XCode ( I'm using Version 9.0 (9A235) )
 			   
 		   Please note that you need to register as a mac developer (It's free!).
 		   		   
 		2) LibUSB 1.0.x (The patched development tree)
 		   This can be installed by two ways:		   
-		   A) MacPorts:      
-		      From: http://www.macports.org/install.php
-			  For Mac OSX 10.7: https://distfiles.macports.org/MacPorts/MacPorts-2.0.4-10.7-Lion.dmg
-			  For Mac OSX 10.6: https://distfiles.macports.org/MacPorts/MacPorts-1.9.2-10.6-SnowLeopard.dmg
-			  * You will also need to install LibTool:
-			      sudo port install libtool			  
-			  * And finally, LibUSB itself:
-			      sudo port install libusb-devel +universal
-		      Note: Do not forget the +universal, it's very important!!
-		            If you're previously already installed libusb-devel then use "sudo port uninstall libusb-devel" and reinstall it again with the +universal flag.
 					
-		   B) Compile the source & install LibUSB yourself:
-			  * Change the working directory to the prerequisites directory: "cd Platform\Linux-x86\Build\Prerequisites"
+		   A) Compile the source & install LibUSB yourself:
+			  * Change the working directory to the prerequisites directory: "cd Platform\Linux\Build\Prerequisites"
 			  * Extract the tar file by running: "tar -xvjf libusb-1.0.8-osx.tar.bz2"
 			  * Change the working directory to the libusb directory: "cd libusb"
 			  * Run the following commands to build and install libusb:
@@ -227,9 +203,9 @@ MacOSX:
 		   Run the script: "sudo ./install.sh" (needs to run as root)
 
   		   The install script copies key files to the following location:
-		       Libs into: /usr/lib
-		       Bins into: /usr/bin
-		       Includes into: /usr/include/ni
+		       Libs into: /usr/local/lib
+		       Bins into: /usr/local/bin
+		       Includes into: /usr/local/include/ni
 		       Config files into: /var/lib/ni
 			
 		To build the package manually, you can run "make" in the "Platform\Linux-x86\Build" directory.
